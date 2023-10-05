@@ -40,7 +40,11 @@ const TableData: React.FC<TableDataProps> = (props) => {
 					<td className="px-6 py-4">
 						{moment(book.publishedDate).format("MMMM DD, YYYY")}
 					</td>
-					<td className="px-6 py-4">{book.genre}</td>
+					<td className="px-6 py-4">
+						<p className="text-xs bg-purple-900 text-white text-center p-1 rounded-lg font-medium tracking-wide">
+							{book.genre}
+						</p>
+					</td>
 					<td className="px-6 py-4 flex justify-center gap-x-5">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

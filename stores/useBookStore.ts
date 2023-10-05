@@ -5,17 +5,35 @@ import { PostgrestError } from "@supabase/supabase-js";
 
 interface BookState {
 	books: Book[];
-	isLoading: boolean;
+	addBookData: {
+		title: string;
+		author: string;
+		publishedDate: Date;
+		genre: string;
+	};
 	error: null | string;
+	onChangeInput(name: string, value: string | number | Date): void;
 	fetchBooks(): void;
+	createBook(): void;
 }
 
-const useBookStore = create<BookState>((set) => ({
+const useBookStore = create<BookState>((set, get) => ({
 	books: [],
-	isLoading: false,
+	addBookData: {
+		title: "",
+		author: "",
+		publishedDate: new Date(),
+		genre: "",
+	},
 	error: null,
+	onChangeInput: (name: string, value: string | number | Date) => {
+		set({ addBookData: { ...get().addBookData, [name]: value } });
+	},
 	fetchBooks: async () => {
-		const { data, error } = await supabase.from("books").select();
+		const { data, error } = await supabase
+			.from("books")
+			.select()
+			.order("created_at", { ascending: false });
 
 		if (error) {
 			set({ error: (error as PostgrestError).message, books: [] });
@@ -29,6 +47,20 @@ const useBookStore = create<BookState>((set) => ({
 		}
 
 		set({ books: data });
+	},
+	createBook: async () => {
+		const { data, error } = await supabase
+			.from("books")
+			.insert([get().addBookData]);
+
+		if (error) {
+			set({ error: (error as PostgrestError).message });
+		}
+
+		if (!error && data) {
+			const oldBooksData = get().books;
+			set({ books: [...oldBooksData, data] });
+		}
 	},
 }));
 

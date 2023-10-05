@@ -1,82 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "@/components/Modal";
 import useModalStore from "@/stores/useModalStore";
+import InputField from "@/components/InputField";
+import useBookStore from "@/stores/useBookStore";
 
 const AddBookModal = () => {
 	const { onCloseAddModal } = useModalStore((state) => state);
+	const { onChangeInput, createBook } = useBookStore((state) => state);
+
+	const onChangeInputField = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		onChangeInput(name, value);
+	};
+
+	const onSubmitForm = (e: React.FormEvent) => {
+		e.preventDefault();
+		createBook();
+		onCloseAddModal();
+	};
 
 	return (
 		<Modal>
-			<h3 className="text-lg leading-6 text-gray-900 font-semibold">
-				New Book
-			</h3>
+			<div className="flex justify-between">
+				<h3 className="text-lg leading-6 text-gray-900 font-semibold">
+					New Book
+				</h3>
+				<button
+					onClick={onCloseAddModal}
+					className="text-neutral-500 bg-neutral-100 hover:bg-neutral-200 p-1 rounded-lg focus:outline-none">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+						className="w-5 h-5">
+						<path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+					</svg>
+				</button>
+			</div>
 			<div className="mt-2">
 				<p className="text-sm text-gray-500">
 					Fill all details below to create a new book
 				</p>
 			</div>
 
-			<form className="mt-5">
-				<div className="mb-6">
-					<label
-						htmlFor="title"
-						className="block mb-2 text-sm font-medium text-gray-900">
-						Title
-					</label>
-					<input
-						type="text"
-						id="title"
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-						placeholder="Title"
-						required
-					/>
-				</div>
-				<div className="mb-6">
-					<label
-						htmlFor="author"
-						className="block mb-2 text-sm font-medium text-gray-900">
-						Author
-					</label>
-					<input
-						type="text"
-						id="author"
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-						placeholder="Author"
-						required
-					/>
-				</div>
-				<div className="mb-6">
-					<label
-						htmlFor="publishedDate"
-						className="block mb-2 text-sm font-medium text-gray-900">
-						Published Date
-					</label>
-					<input
-						type="date"
-						id="publishedDate"
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-						required
-					/>
-				</div>
-				<div className="mb-6">
-					<label
-						htmlFor="genre"
-						className="block mb-2 text-sm font-medium text-gray-900">
-						Genre
-					</label>
-					<input
-						type="text"
-						id="genre"
-						className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-						placeholder="Genre"
-						required
-					/>
-				</div>
+			<form className="mt-5" onSubmit={onSubmitForm}>
+				<InputField
+					label="title"
+					id="title"
+					inputType="text"
+					onChange={onChangeInputField}
+					isRequired
+				/>
+				<InputField
+					label="author"
+					id="author"
+					inputType="text"
+					onChange={onChangeInputField}
+					isRequired
+				/>
+				<InputField
+					label="published date"
+					id="publishedDate"
+					inputType="date"
+					onChange={onChangeInputField}
+					isRequired
+				/>
+				<InputField
+					label="genre"
+					id="genre"
+					inputType="text"
+					onChange={onChangeInputField}
+					isRequired
+				/>
 
 				<button
-					type="button"
-					onClick={onCloseAddModal}
-					className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+					type="submit"
+					className="text-white bg-purple-900 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg focus:outline-none text-sm w-full sm:w-auto px-5 py-2.5 text-center">
 					Submit
 				</button>
 			</form>
