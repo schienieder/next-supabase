@@ -33,7 +33,7 @@ const TableData: React.FC<TableDataProps> = (props) => {
 				<tr key={book.id} className="bg-white border-b">
 					<th
 						scope="row"
-						className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+						className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
 						{book.title}
 					</th>
 					<td className="px-6 py-4">{book.author}</td>

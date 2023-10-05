@@ -6,7 +6,7 @@ import AddBookModal from "@/components/AddBookModal";
 
 const MainView = () => {
 	return (
-		<div className="w-full p-8">
+		<div className="w-full md:w-4/5">
 			<AddBookModal />
 			<Tabs />
 			<BookTable />

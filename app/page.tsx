@@ -9,7 +9,9 @@ export default function Home() {
 			{/* TOP NAV */}
 			<Navbar />
 			{/* MAIN CONTENTS HERE */}
-			<MainView />
+			<div className="w-full p-8 flex justify-center">
+				<MainView />
+			</div>
 		</div>
 	);
 }
