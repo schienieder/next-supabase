@@ -23,7 +23,7 @@ const BookTable = () => {
 		<div className="w-full bg-white shadow border-b border-gray-200 rounded-2xl mt-10 p-5">
 			<h4 className="text-xl font-semibold text-gray-800 mb-3">Books Table</h4>
 			{error && (
-				<div className="w-full bg-rose-200 text-rose-600 mb-3 p-3 rounded-2xl font-semibold text-center">
+				<div className="w-full bg-rose-200 text-rose-600 mb-3 p-3 rounded-2xl text-sm font-semibold text-center">
 					{error}
 				</div>
 			)}
