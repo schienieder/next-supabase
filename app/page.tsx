@@ -10,9 +10,6 @@ export default function Home() {
 			<Navbar />
 			{/* MAIN CONTENTS HERE */}
 			<MainView />
-			{/* <div className="w-full flex justify-center p-8">
-				<MainView />
-			</div> */}
 		</div>
 	);
 }

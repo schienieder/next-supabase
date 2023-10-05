@@ -27,3 +27,15 @@ body {
 		)
 		rgb(var(--background-start-rgb));
 }
+
+.hoverAnimation {
+	@apply text-neutral-500 uppercase no-underline tracking-[0.15em] inline-block relative px-5 py-[15px] after:content-[""] after:block after:h-0.5 after:absolute after:w-0 after:left-2/4 after:bottom-0;
+}
+
+.hoverAnimation:hover:after {
+	background: none repeat scroll 0 0 transparent;
+	background: #581c87;
+	width: 100%;
+	left: 0;
+	transition: width 0.3s ease 0s, left 0.3s ease 0s;
+}
