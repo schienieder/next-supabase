@@ -43,7 +43,7 @@ const BookTable = () => {
 			)}
 			<div className="relative overflow-x-auto">
 				<table className="w-full text-sm text-left text-gray-500">
-					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
+					<thead className="text-xs text-gray-700 uppercase bg-neutral-100">
 						<tr>
 							{tableHeaders.map((header: string, index: number) => {
 								return (

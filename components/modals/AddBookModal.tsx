@@ -3,6 +3,7 @@ import Modal from "@/components/modals/Modal";
 import useModalStore from "@/stores/useModalStore";
 import InputField from "@/components/InputField";
 import useBookStore from "@/stores/useBookStore";
+import { useQuery } from "react-query";
 
 interface AddBookModalProps {
 	onAlert(message: string): void;
@@ -11,7 +12,15 @@ interface AddBookModalProps {
 const AddBookModal: React.FC<AddBookModalProps> = (props) => {
 	const { onAlert } = props;
 	const { isOpenAddModal, onCloseAddModal } = useModalStore((state) => state);
-	const { onChangeInput, createBook } = useBookStore((state) => state);
+	const { onChangeInput, createBook, fetchBooks } = useBookStore(
+		(state) => state
+	);
+	const { refetch } = useQuery("books", fetchBooks, {
+		refetchOnWindowFocus: true,
+		staleTime: 0,
+		cacheTime: 0,
+		refetchInterval: 0,
+	});
 
 	const onChangeInputField = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -22,6 +31,7 @@ const AddBookModal: React.FC<AddBookModalProps> = (props) => {
 		e.preventDefault();
 		createBook();
 		onCloseAddModal();
+		refetch();
 
 		onAlert("Book created, please wait a bit.");
 	};
