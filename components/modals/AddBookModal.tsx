@@ -4,7 +4,12 @@ import useModalStore from "@/stores/useModalStore";
 import InputField from "@/components/InputField";
 import useBookStore from "@/stores/useBookStore";
 
-const AddBookModal = () => {
+interface AddBookModalProps {
+	onAlert(message: string): void;
+}
+
+const AddBookModal: React.FC<AddBookModalProps> = (props) => {
+	const { onAlert } = props;
 	const { isOpenAddModal, onCloseAddModal } = useModalStore((state) => state);
 	const { onChangeInput, createBook } = useBookStore((state) => state);
 
@@ -17,6 +22,8 @@ const AddBookModal = () => {
 		e.preventDefault();
 		createBook();
 		onCloseAddModal();
+
+		onAlert("Book created, please wait a bit.");
 	};
 
 	return (

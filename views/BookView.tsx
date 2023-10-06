@@ -5,6 +5,8 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 import SkeletonLoader from "@/components/skeletons/FormLoader";
+import { ToastContainer } from "react-toastify";
+import useAlert from "@/hooks/useAlert";
 
 interface BookViewProps {
 	bookId: number;
@@ -12,6 +14,7 @@ interface BookViewProps {
 
 const BookView: React.FC<BookViewProps> = (props) => {
 	const { bookId } = props;
+	const { handleAlert } = useAlert();
 
 	const { selectedBookData, onChangeInput, viewBook, updateBook } =
 		useBookStore((state) => state);
@@ -37,11 +40,20 @@ const BookView: React.FC<BookViewProps> = (props) => {
 	const onSubmitForm = (e: React.FormEvent) => {
 		e.preventDefault();
 		updateBook(bookId);
-		router.push("/");
+		handleAlert("Book updated, redirecting to home page.");
+		setTimeout(() => {
+			router.push("/");
+		}, 6000);
 	};
 
 	return (
 		<div className="w-full md:max-w-lg">
+			<ToastContainer
+				position="bottom-right"
+				icon="🚀"
+				toastClassName="bg-purple-900 text-white"
+				className="text-white"
+			/>
 			<div className="w-full bg-white shadow border-b border-gray-200 rounded-2xl mt-10 p-5">
 				<div className="flex justify-between items-center mt-3">
 					<h4 className="text-sm md:text-xl font-semibold">Selected Book</h4>
