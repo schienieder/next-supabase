@@ -1,16 +1,17 @@
 import React from "react";
 import moment from "moment";
-import SkeletonLoader from "@/components/SkeletonLoader";
+import SkeletonLoader from "@/components/skeletons/TableLoader";
 import { Book } from "@/components/BookTable";
 
 type TableDataProps = {
 	isLoading: boolean;
 	books: Book[];
+	onViewBook(bookId: number): void;
 	onDeleteBook(bookId: number): void;
 };
 
 const TableData: React.FC<TableDataProps> = (props) => {
-	const { isLoading, books, onDeleteBook } = props;
+	const { isLoading, books, onViewBook, onDeleteBook } = props;
 
 	if (isLoading) {
 		return <SkeletonLoader />;
@@ -47,20 +48,26 @@ const TableData: React.FC<TableDataProps> = (props) => {
 						</p>
 					</td>
 					<td className="px-6 py-4 flex justify-center gap-x-5">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							strokeWidth={2}
-							stroke="currentColor"
-							className="w-5 h-5">
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-							/>
-						</svg>
-						<button onClick={() => onDeleteBook(book.id)}>
+						<button
+							onClick={() => onViewBook(book.id)}
+							className="text-gray-500 hover:text-gray-700">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								strokeWidth={2}
+								stroke="currentColor"
+								className="w-5 h-5">
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+								/>
+							</svg>
+						</button>
+						<button
+							onClick={() => onDeleteBook(book.id)}
+							className="text-gray-500 hover:text-gray-700">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"

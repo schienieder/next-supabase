@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import TableData from "@/components/TableData";
 import useBookStore from "@/stores/useBookStore";
 import useModalStore from "@/stores/useModalStore";
+import { useRouter } from "next/navigation";
 
 export type Book = {
 	id: number;
@@ -17,10 +18,15 @@ const tableHeaders = ["title", "author", "published date", "genre", "actions"];
 
 const BookTable = () => {
 	const { fetchBooks, viewBook, books, error } = useBookStore((state) => state);
+	const router = useRouter();
 
 	const { onOpenDeleteModal } = useModalStore((state) => state);
 
 	const { isLoading } = useQuery("books", fetchBooks);
+
+	const handleViewBook = (bookId: number) => {
+		router.push(`/${bookId}`);
+	};
 
 	const handleDeleteBook = (bookId: number) => {
 		viewBook(bookId);
@@ -56,6 +62,7 @@ const BookTable = () => {
 					<TableData
 						isLoading={isLoading}
 						books={books}
+						onViewBook={(bookId: number) => handleViewBook(bookId)}
 						onDeleteBook={(bookId: number) => handleDeleteBook(bookId)}
 					/>
 				</table>

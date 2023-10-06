@@ -7,11 +7,11 @@ const DeleteBookModal = () => {
 	const { isOpenDeleteModal, onCloseDeleteModal } = useModalStore(
 		(state) => state
 	);
-	const { bookData, deleteBook } = useBookStore((state) => state);
+	const { selectedBookData, deleteBook } = useBookStore((state) => state);
 
 	const onSubmitButton = (e: React.FormEvent) => {
 		e.preventDefault();
-		deleteBook(bookData.id);
+		deleteBook(selectedBookData.id);
 		onCloseDeleteModal();
 	};
 
@@ -23,7 +23,10 @@ const DeleteBookModal = () => {
 			onCloseModal={onCloseDeleteModal}>
 			<h4 className="text-base my-6">
 				Do you want to delete book{" "}
-				<span className="capitalize font-semibold">{bookData.title}</span>?
+				<span className="capitalize font-semibold">
+					{selectedBookData.title}
+				</span>
+				?
 			</h4>
 			<button
 				type="button"

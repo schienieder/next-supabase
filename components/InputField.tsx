@@ -5,11 +5,12 @@ type InputFieldProps = {
 	id: string;
 	inputType: string;
 	isRequired: boolean;
+	defaultValue?: string;
 	onChange(e: React.ChangeEvent<HTMLInputElement>): void;
 };
 
 const InputField: React.FC<InputFieldProps> = (props) => {
-	const { label, id, inputType, isRequired, onChange } = props;
+	const { label, id, inputType, isRequired, defaultValue, onChange } = props;
 
 	return (
 		<div className="mb-6">
@@ -26,6 +27,8 @@ const InputField: React.FC<InputFieldProps> = (props) => {
 				placeholder={label}
 				required={isRequired}
 				onChange={onChange}
+				defaultValue={defaultValue ?? ""}
+				key={defaultValue}
 			/>
 		</div>
 	);

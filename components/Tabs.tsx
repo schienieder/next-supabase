@@ -19,7 +19,6 @@ const Tabs = () => {
 
 	const changeActiveItem = (item: string) => {
 		if (isActive === item) return;
-		console.log("Item: ", item);
 		setIsActive(item);
 	};
 
