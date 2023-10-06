@@ -5,6 +5,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 
 interface BookState {
 	books: Book[];
+	bookData: Book;
 	addBookData: {
 		title: string;
 		author: string;
@@ -14,11 +15,21 @@ interface BookState {
 	error: null | string;
 	onChangeInput(name: string, value: string | number | Date): void;
 	fetchBooks(): void;
+	viewBook(bookId: number): void;
 	createBook(): void;
+	deleteBook(bookId: number): void;
 }
 
 const useBookStore = create<BookState>((set, get) => ({
 	books: [],
+	bookData: {
+		id: 0,
+		title: "",
+		author: "",
+		publishedDate: new Date(),
+		genre: "",
+		createdAt: new Date(),
+	},
 	addBookData: {
 		title: "",
 		author: "",
@@ -48,6 +59,21 @@ const useBookStore = create<BookState>((set, get) => ({
 
 		set({ books: data });
 	},
+	viewBook: async (bookId: number) => {
+		const { data, error } = await supabase
+			.from("books")
+			.select()
+			.eq("id", bookId)
+			.single();
+
+		if (error) {
+			set({ error: (error as PostgrestError).message });
+		}
+
+		if (!error && data) {
+			set({ bookData: data });
+		}
+	},
 	createBook: async () => {
 		const { data, error } = await supabase
 			.from("books")
@@ -58,9 +84,22 @@ const useBookStore = create<BookState>((set, get) => ({
 		}
 
 		if (!error && data) {
-			const oldBooksData = get().books;
-			set({ books: [...oldBooksData, data] });
+			const previousBooks = get().books;
+			set({ books: [...previousBooks, data] });
 		}
+	},
+	deleteBook: async (bookId: number) => {
+		const { error } = await supabase.from("books").delete().eq("id", bookId);
+
+		if (error) {
+			set({ error: (error as PostgrestError).message });
+			return;
+		}
+
+		const filteredBooks = get().books.filter(
+			(book: Book) => book.id !== bookId
+		);
+		set({ books: filteredBooks });
 	},
 }));
 

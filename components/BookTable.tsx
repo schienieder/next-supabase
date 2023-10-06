@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import TableData from "@/components/TableData";
 import useBookStore from "@/stores/useBookStore";
+import useModalStore from "@/stores/useModalStore";
 
 export type Book = {
 	id: number;
@@ -15,9 +16,16 @@ export type Book = {
 const tableHeaders = ["title", "author", "published date", "genre", "actions"];
 
 const BookTable = () => {
-	const { fetchBooks, books, error } = useBookStore((state) => state);
+	const { fetchBooks, viewBook, books, error } = useBookStore((state) => state);
+
+	const { onOpenDeleteModal } = useModalStore((state) => state);
 
 	const { isLoading } = useQuery("books", fetchBooks);
+
+	const handleDeleteBook = (bookId: number) => {
+		viewBook(bookId);
+		onOpenDeleteModal();
+	};
 
 	return (
 		<div className="w-full bg-white shadow border-b border-gray-200 rounded-2xl mt-10 p-5">
@@ -45,7 +53,11 @@ const BookTable = () => {
 							})}
 						</tr>
 					</thead>
-					<TableData isLoading={isLoading} books={books} />
+					<TableData
+						isLoading={isLoading}
+						books={books}
+						onDeleteBook={(bookId: number) => handleDeleteBook(bookId)}
+					/>
 				</table>
 			</div>
 		</div>
